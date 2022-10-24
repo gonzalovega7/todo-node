@@ -85,8 +85,83 @@ const readInput = async( message ) => {
 
 }
 
+
+const deleteTasksList = async( tasks = []) => {
+
+    const choices = tasks.map( (task, i)=> {
+        const idx = `${i + 1}.`.yellow;
+        return {
+            value: task.id,
+            name: `${idx} ${task.desc}`
+        }
+    });
+
+    choices.push({
+        value: '0',
+        name: '0.'.yellow + ' Cancel'
+    });
+
+    const questions = [
+        {
+            type: 'list',
+            name: 'id',
+            message: 'delete',
+            choices
+        }
+    ]
+
+    const { id } = await inquirer.prompt(questions);
+
+    return id;
+    
+
+}
+
+const confirm = async(message) => {
+    const question = [{
+        type: 'confirm',
+        name: 'ok',
+        message
+    }];
+
+    const { ok } = await inquirer.prompt(question);
+    return ok;
+}
+
+const showChecklistList = async( tasks = []) => {
+
+    const choices = tasks.map( (task, i)=> {
+
+        const idx = `${i + 1}.`.yellow;
+        
+        return {
+            value: task.id,
+            name: `${idx} ${task.desc}`,
+            checked: (task.completeDate) ? true : false
+        }
+    });
+
+    const questions = [
+        {
+            type: 'checkbox',
+            name: 'ids',
+            message: 'Selections',
+            choices
+        }
+    ]
+
+    const { ids } = await inquirer.prompt(questions);
+
+    return ids;
+    
+
+}
+
 module.exports = {
     inquirerMenu,
     pause,
-    readInput
+    readInput,
+    deleteTasksList,
+    confirm,
+    showChecklistList
 }
