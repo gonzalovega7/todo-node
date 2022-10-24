@@ -1,21 +1,31 @@
 require('colors');
 
-const { inquirerMenu, pause } = require('./helpers/inquirer');
+const { inquirerMenu, pause, readInput } = require('./helpers/inquirer');
 const Task = require('./models/task');
 const Tasks = require('./models/tasks');
 
 const main = async() => {
     
     let opt = '';
+    const tasks = new Tasks();
+    
     do {
-        // opt = await inquirerMenu();
-        // console.log({opt});
+        // This function is used to print menu 
+        opt = await inquirerMenu();
 
-        const task = new Task('Buy food');
-        const tasks = new Tasks();
+        switch (opt) {
+            case '1':
+                // Create option
+                const desc = await readInput('Description:');
+                tasks.createTask(desc);
+                console.log(desc);
+            break;
         
-        tasks._listOfTasks[task.id] = task;
-        console.log(tasks);
+            case '2':
+                console.log(tasks.arrList);
+            break;
+        }
+
 
         if(opt !== '0') {
             await pause();
