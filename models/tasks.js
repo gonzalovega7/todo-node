@@ -10,7 +10,7 @@ class Tasks {
         // array of all keys
         Object.keys(this._listOfTasks).forEach( key => {
             const task = this._listOfTasks[key];
-            list.push(task.desc);
+            list.push(task);
         });
 
         return list;
@@ -18,6 +18,24 @@ class Tasks {
 
     constructor() {
         this._listOfTasks = {};
+    }
+
+    loadTasksFromArray(tasks = [] ) {
+        tasks.forEach( task => {
+            this._listOfTasks[task.id] = task;
+        })
+    }
+    
+    completeList() {
+        console.log('\n');
+        this.arrList.forEach((task,i) => {
+            const idx = `${i + 1}`.green;
+            const { desc, completeDate } = task;
+            const state = (completeDate) ? 'Complete'.green : 'Pending'.red;
+
+            console.log(`${idx} ${desc} :: ${state}`);
+        })
+
     }
 
     createTask(desc) {
